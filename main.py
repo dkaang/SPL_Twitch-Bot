@@ -11,10 +11,15 @@ Otherwise, the modifications to this code, and all the code in the /lib director
 from irc.bot import SingleServerIRCBot
 from requests import get
 
-from lib import cmds, db
+from lib import cmds, db, react
+
+from dotenv import dotenv_values
 
 NAME = "dkaangg"
 OWNER = "dkaangg"
+stream_link = f"https://twitch.tv/{OWNER}"
+
+config = dotenv_values(".env") # for the CLIENT_ID and ACCESS_TOKEN
 
 
 class Bot(SingleServerIRCBot):
@@ -22,8 +27,9 @@ class Bot(SingleServerIRCBot):
         self.HOST = "irc.chat.twitch.tv"
         self.PORT = 6667
         self.USERNAME = NAME.lower()
-        self.CLIENT_ID = "gp762nuuoqcoxypju8c569th9wz7q5"
-        self.TOKEN = "q5avrmxf18cq8v4h54cqlv9rs4a9ex"
+        self.CLIENT_ID = config["CLIENT_ID"]
+        self.TOKEN = config["ACCESS_TOKEN"]
+
         self.CHANNEL = f"#{OWNER}"
 
         url = f"https://api.twitch.tv/helix/users?login={self.USERNAME}"
@@ -44,24 +50,29 @@ class Bot(SingleServerIRCBot):
 
         connection.join(self.CHANNEL)
         db.build()
+
         self.send_message("Now online.")
+        print(f"\n----- Bot online ----- \n{stream_link}")
     
     @db.with_commit # save every comment to the database
     def on_pubmsg(self, connection, event):
-        tags = {kvpair["key"]: kvpair["value"] for kvpair in event.tags} # kvpair = key value pair
+        tags = {kvpair["key"]: kvpair["value"] for kvpair in event.tags} # "kvpair" = key value pair
         user = {"name": tags["display-name"], "id": tags["user-id"]}
         message = event.arguments[0]
 
-        # print(f"Message from {user['name']}: '{message}'")
+        print(f"Message from {user['name']}: '{message}'")
         if user["name"] != NAME: # if the user/chatter is not the bot
+            react.process(bot, user, message)
             cmds.process(bot, user, message)
 
     def send_message(self, message):
-        self.connection.privmsg(self.CHANNEL, message)
+        self.connection.privmsg(self.CHANNEL, message.replace("\n", "").replace("\r", "")) # replace newlines)(\n) and carriage (\r) returns with empty strings
 
 if __name__ == "__main__":
     bot = Bot()
     bot.start()
+
+    
 
 
 ##### FOR TEST PURPOSES #####
