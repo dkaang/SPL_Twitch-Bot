@@ -5,7 +5,9 @@
 Some code in this file is licensed under the Apache License, Version 2.0.
     https://aws.amazon.com/apache2.0/
 
-Otherwise, the modifications to this code, and all the code in the /lib directory, are copyrighted @ DKaAnG 2025.    
+Otherwise, the modifications to this code, and all the code in the /lib directory, are copyrighted @ DKaAnG 2025.  
+
+GitHub Repository: https://github.com/dkaang/SPL_Twitch-Bot  
 """
 
 from irc.bot import SingleServerIRCBot
@@ -52,7 +54,7 @@ class Bot(SingleServerIRCBot):
         db.build()
 
         self.send_message("Now online.")
-        print(f"\n----- Bot online ----- \n{stream_link}")
+        print(f"----- Bot online ----- \n{stream_link}")
     
     @db.with_commit # save every comment to the database
     def on_pubmsg(self, connection, event):

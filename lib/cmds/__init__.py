@@ -1,6 +1,6 @@
 from time import time
 
-from . import misc
+from . import misc, economy, games
 
 PREFIX = "!" # e,g, "!hello"
 
@@ -17,7 +17,15 @@ class Cmd(object):
 # }
 
 cmds = [
-    Cmd(["hello", "hi", "hey"], misc.hello, cooldown = 15)
+    #   misc
+    Cmd(["hello", "hi", "hey"], misc.hello, cooldown = 15), 
+    
+    #   economy
+    Cmd(["coins", "money", "balance"], economy.coins),
+
+    #   games
+    Cmd(["coinflip", "flip"], games.coinflip, cooldown = 0), 
+    # Cmd(["rockpaperscissors", "rps"], games.rockpaperscissors, cooldown = 300)
 ]
 
 def process(bot, user, message):
@@ -38,7 +46,7 @@ def perform(bot, user, call, *args): # call = cmd
                     cmd.func(bot, user, *args)
                     cmd.next_use = time() + cmd.cooldown # present time + cooldown (15 seconds)
 
-                else:
+                else: # COMMENT OUT LATER !!!
                     bot.send_message(f"{user['name']}, {call} is still on cooldown. \nTry again in {cmd.next_use - time():,.0f} seconds.")
                 
                 return
