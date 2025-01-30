@@ -39,19 +39,19 @@ def update_records(bot, user):
     
 
 def welcome(bot, user):
-    bot.send_message(f"Welcome to the Stream {user['name']}! :)")
+    # bot.send_message(f"Willkommen im Stream {user['name']}! :)")
     welcomed.append(user["id"])
 
 def goodbye(bot, user):
-    bot.send_message(f"Goodbye {user['name']}! See you soon! :)")
+    # bot.send_message(f"Tschüss {user['name']}! Auf Wiedersehen! :)")
     welcomed.remove(user["id"]) # if not commeted out, the bot will welcome the user again, the next time they send a message (after saying "bye")
 
 
 def check_activity(bot, user):
     messages[user["id"]] += 1 # only works, because it is a defaultdict
 
-    if (count := messages[user["id"]]) % 3 == 0: # increase the number 3 to about 25 - for now its 3 for testing purposes 
-        bot.send_message(f"Thanks for being active in chat {user['name']} - you've sent {count:,} messages! Keep it up!") # ":," = thounsands separator
+    # if (count := messages[user["id"]]) % 3 == 0: # increase the number 3 to about 25 - for now its 3 for testing purposes 
+    #     bot.send_message(f"Thanks for being active in chat {user['name']} - you've sent {count:,} messages! Keep it up!") # ":," = thounsands separator
 
 
 """ 

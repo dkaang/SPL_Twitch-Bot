@@ -53,7 +53,7 @@ class Bot(SingleServerIRCBot):
         connection.join(self.CHANNEL)
         db.build()
 
-        self.send_message("Now online.")
+        self.send_message("🤖 SPL-Bot jetzt online. 🤖")
         print(f"----- Bot online ----- \n{stream_link}")
     
     @db.with_commit # save every comment to the database

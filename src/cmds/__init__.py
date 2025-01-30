@@ -12,7 +12,7 @@ class Cmd(object):
         self.func = func
         self.cooldown: int = cooldown # cooldown period in seconds
         self.cooldown_key: str = cooldown_key
-        self.cooldown_message: str = "{username}, {call} is still on cooldown. \nTry again in {time} seconds."
+        self.cooldown_message: str = "{username}, {call} ist noch auf cooldown. \nVersuch's in {time} Seconds erneut."
 
 #         self.cooldown_message: str = f"{user['name']}, {call} is still on cooldown. \nTry again in {cmd.next_use - time():,.0f} seconds."
 
@@ -72,19 +72,5 @@ def perform(bot, user, call, *args): # call = cmd
             cmd.func(bot, user, *args)
             return
             
-    bot.send_message(f"{user['name']}, \"{call}\" isn't a registered command.")
-
-
-
-# def perform(bot, user, cmd, *args):
-#     for name, func in cmds.items():
-#         if cmd == name:
-#             func(bot, user, *args)
-#             return
-        
-#     if cmd == "help":
-#         misc.help(bot, PREFIX, cmds)
-
-#     else:
-#         bot.send_message(f"{user['name']}, \"{cmd}\" isn't a registered command.")
+    bot.send_message(f"{user['name']}, \"{call}\" ist kein registrierter Command.")
 

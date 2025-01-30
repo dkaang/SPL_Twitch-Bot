@@ -16,11 +16,11 @@ def vote_start(bot, user, *args):
     print(user["id"])
 
     if user["id"] != superUserID:
-        bot.send_message(f"{user['name']}, you are not authorized to use this command.")
+        bot.send_message(f"{user['name']}, du hast nicht die Berechtigung, um diesen Befehl auszuführen.")
         return
     
     if len(args) < 2:
-        bot.send_message("Please use: !votestart <option1> <option2> ...")
+        bot.send_message("Benutz bitte: !votestart <option1> <option2> ...")
         return
     
     votes.clear()
@@ -33,23 +33,23 @@ def vote_start(bot, user, *args):
         
     print(availableVotes)
     
-    bot.send_message(f"Vote started! Options: {', '.join(availableVotes)}. \nUse !vote <option> to vote.")
+    bot.send_message(f"Umfrage gestartet! Optionen: {', '.join(availableVotes)}. Benutz !vote <option> um abzustimmen.")
 
 
 def vote_end(bot, user, *args):
     global voteActive, availableVotes, votes
     if user["id"] != superUserID:
-        bot.send_message(f"{user['name']}, you are not authorized to use this command.")
+        bot.send_message(f"{user['name']}, du hast nicht die Berechtigung, diesen Befehl auszuführen.")
         return
     
     if not voteActive:
-        bot.send_message("No vote is currently active.")
+        bot.send_message("Aktuell gibt es keine Umfrage.")
         return
     
     voteActive = False
     
     if not votes:
-        bot.send_message("No votes were cast.")
+        bot.send_message("Es hat niemand abgestimmt.")
         return
     
     voteCount = {}
@@ -62,7 +62,7 @@ def vote_end(bot, user, *args):
     
     winner = max(voteCount, key=voteCount.get)
     votes_for_winner = voteCount[winner]
-    bot.send_message(f"Vote ended! Winner: {winner.title()} with {votes_for_winner} votes!")
+    bot.send_message(f"Umfrage beendet! Gewinner: {winner.title()} mit {votes_for_winner} Abstimmungen!")
 
     for option in voteCount:
         count = voteCount[option]
@@ -81,26 +81,26 @@ def vote(bot, user, *args):
         votes = {}
     
     if not availableVotes:
-        bot.send_message("No vote is currently active.")
+        bot.send_message("Aktuell gibt es keine Umfrage.")
         return
 
     if voteActive == False:
-        bot.send_message("No vote is currently active.")
+        bot.send_message("Aktuell gibt es keine Umfrage.")
         return
 
     if len(args) != 1:
-        bot.send_message("Please vote using: !vote <option>")
+        bot.send_message("Benutz bitte: !vote <option>")
         return
 
     choice = args[0]
     if choice.title() not in availableVotes:
-        bot.send_message(f"Invalid option. Available options: {', '.join(availableVotes)}")
+        bot.send_message(f"Keine Option. Verfügbare Optionen: {', '.join(availableVotes)}")
         return
 
     user_id = user['id']
     if user_id in votes:
-        bot.send_message(f"{user['name']}, you have already voted!")
+        bot.send_message(f"{user['name']}, du hast bereits abgestimmt!")
         return
 
     votes[user_id] = choice
-    bot.send_message(f"{user['name']} voted for {choice.title()}!")
+    # bot.send_message(f"{user['name']} hat für {choice.title()} abgestimmt!")

@@ -7,27 +7,24 @@ def coinflip(bot, user, side=None, bet=5, *args): # *args, to eat up and prevent
     bet = int(bet)
     
     if side is None:
-        bot.send_message("You need to guess which side the coin will land on!")
+        bot.send_message("Errate, auf welcher Seite die Münze landen wird! Benutz: !coinflip <kopf/zahl> <bet>")
 
-    elif (side := side.lower()) not in (opt := ("heads", "tails", "head", "tail", "h", "t")):
-        bot.send_message("Enter one of the following as the side: " + "/".join(opt))
+    elif (side := side.lower()) not in (opt := ("kopf", "zahl", "k", "z")):
+        bot.send_message("Such dir eine von den folgenden Seiten aus: " + " / ".join(opt))
 
     else:
-        
-
         user_coins = db.field("SELECT Coins FROM users WHERE UserID = ?", user["id"])
 
         if user_coins < bet:
-            bot.send_message(f"{user['name']}, you don't have enough coins to make that bet.")
+            bot.send_message(f"{user['name']}, du hast nicht genügend Coins, um diese Wette abzugeben.")
             return
 
-        result = choice(("heads", "tails"))
+        result = choice(("kopf", "zahl"))
 
         if side[0] == result[0]: # compare first letter of side and first letter of result -> side: "h" | result: "heads" => correct
             db.execute("UPDATE users SET Coins = Coins + ? WHERE UserID = ?", bet, user["id"])
-            bot.send_message(f"The coin landed on {result}! You won. :D")
+            bot.send_message(f"Die Münze ist auf {result.title()} gelandet! Du hast gewonnen! :D")
 
         else:
             db.execute("UPDATE users SET Coins = Coins - ? WHERE UserID = ?", bet, user["id"])
-            bot.send_message(f"Too bad - it landed on {result}. You lost your bet. :(")
-        
+            bot.send_message(f"Schade - die Münze ist auf {result.title()} gelandet. Du hast verloren. :(")
