@@ -64,10 +64,12 @@ def vote_end(bot, user, *args):
     votes_for_winner = voteCount[winner]
     bot.send_message(f"Umfrage beendet! Gewinner: {winner.title()} mit {votes_for_winner} Abstimmungen!")
 
+    print("\nAbstimmungsergebnisse:")
     for option in voteCount:
         count = voteCount[option]
         print(f"{option.title()}: {count} votes")
-    
+    print()
+
     votes.clear()
     availableVotes.clear()
 
