@@ -13,12 +13,12 @@ GitHub Repository: https://github.com/dkaang/SPL_Twitch-Bot
 from irc.bot import SingleServerIRCBot
 from requests import get
 
-from lib import cmds, db, react
+from src import cmds, db, react
 
 from dotenv import dotenv_values
 
-NAME = "dkaangg"
-OWNER = "dkaangg"
+NAME = "mithkoeln" #dkaangg
+OWNER = "mithkoeln" #dkaangg
 stream_link = f"https://twitch.tv/{OWNER}"
 
 config = dotenv_values(".env") # for the CLIENT_ID and ACCESS_TOKEN
@@ -61,6 +61,8 @@ class Bot(SingleServerIRCBot):
         tags = {kvpair["key"]: kvpair["value"] for kvpair in event.tags} # "kvpair" = key value pair
         user = {"name": tags["display-name"], "id": tags["user-id"]}
         message = event.arguments[0]
+        message = message.strip()
+        message = message.replace(" 󠀀", "")
 
         print(f"Message from {user['name']}: '{message}'")
         if user["name"] != NAME: # if the user/chatter is not the bot
