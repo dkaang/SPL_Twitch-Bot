@@ -52,7 +52,7 @@ def perform(bot, user, call, *args): # call = cmd
     for cmd in cmds:
         if call in cmd.callables: 
             try:
-                with open("messages.txt", "r+") as f:
+                with open("messages.txt", "r+") as f: # Save all BOT-Messages in separate file
                     count = int(f.read() or "0")
                     count += 1
                     f.seek(0)
@@ -72,5 +72,5 @@ def perform(bot, user, call, *args): # call = cmd
             cmd.func(bot, user, *args)
             return
             
-    bot.send_message(f"{user['name']}, \"{call}\" ist kein registrierter Command.")
+    # bot.send_message(f"{user['name']}, \"{call}\" ist kein registrierter Command.")
 

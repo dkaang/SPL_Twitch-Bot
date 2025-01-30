@@ -1,7 +1,8 @@
 from .. import db
 from time import time
 
-superUserID = "125313114" # yung yoom
+# superUserID = "125313114" # yung yoom
+superUserID = "204711470" # tabi_krt
 
 # Dictionary to store votes: {user_id: choice}
 votes = {}
