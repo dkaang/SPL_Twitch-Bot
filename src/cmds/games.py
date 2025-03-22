@@ -4,8 +4,15 @@ from time import time
 from .. import db
 
 def coinflip(bot, user, side=None, bet=5, *args): # *args, to eat up and prevent user from inputting more than 1 argument 
+    try:
+        bet = int(bet)
+    except:
+        return
     bet = int(bet)
     
+    if bet <= 0:
+        return
+
     if side is None:
         bot.send_message("Errate, auf welcher Seite die Münze landen wird! Benutz: !coinflip <kopf/zahl> <bet>")
 
